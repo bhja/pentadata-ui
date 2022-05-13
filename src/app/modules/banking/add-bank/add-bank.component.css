@@ -1,0 +1,44 @@
+
+input{
+  margin: 10px;
+}
+ul {
+  display: block;
+  list-style-type: none;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+ /* padding-inline-start: 0px;*/
+  overflow-y:scroll;
+}
+
+.list-item {
+  /* position: relative; */
+  display: flex;
+  color: #f0f0f0;
+  text-decoration: none;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0,0,0,.125)!important;
+  cursor: pointer;
+}
+
+li .dropdown {
+  background: #ccc;
+  margin: 10px;
+}
+.item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #464646;
+}
+img{
+  vertical-align: middle;
+}
+.bank-img {
+  height: 22%;
+  width: 22%;
+  padding-right: 2.5%;
+
+}
+

@@ -1,0 +1,14 @@
+<mat-card>
+  <div mat-card-title>Add Financial Institution</div>
+  <form [formGroup]="form">
+    <mat-form-field>
+    <input matInput placeholder="Search for financial institution" formControlName="bank">
+    </mat-form-field>
+    <ul *ngFor="let institution of institutions">
+      <li class="list-item" (click)="selectedBank(institution)">
+        <img class="bank-img" src="{{institution.logo}}" />
+        <span class="item-name">{{institution.name}}</span>
+      </li>
+    </ul>
+  </form>
+</mat-card>
