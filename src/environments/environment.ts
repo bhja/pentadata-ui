@@ -3,7 +3,33 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: {
+    institutions: {
+      url: '',
+      version: 'application/json'
+    },
+    person:{
+      create: {
+        url : '',
+        version: 'application/json'
+      },
+      consent_banking:{
+        url : '',
+        version: 'application/json'
+      }
+  },
+    account:{
+      create:{
+      url: '',
+      version: 'application/json',
+        redirect_uri: ''
+    }},
+    consent:{
+      url:'',
+      version: 'application/json'
+    }
+    } //end of api
 };
 
 /*
