@@ -6,8 +6,8 @@
     </li>
     </ul>
   <mat-checkbox color="primary" (change)="sendUserConsent($event)"> By clicking "Share my data", I am instructing {{data.bank}} to allow this third party to access and retrieve my information.</mat-checkbox>
-</div>
 <div align="right">
   <button mat-button color="primary" (click)="launch()" [disabled]="!checked" >Share my data</button>
   <button mat-button color="primary" (click)="close()">Cancel</button>
+</div>
 </div>

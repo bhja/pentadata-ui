@@ -17,11 +17,20 @@ export const environment = {
       }
     },
     account:{
+      retrieve:{
+        url: 'api/pentadata/accounts/{personId}',
+        version: 'application/json',
+      },
       create:{
-      url: 'api/pentadata/account/',
+      url: 'api/pentadata/accounts/',
       version: 'application/json',
-      redirect_uri: 'http://localhost:4200/accounts'
+      redirect_uri: 'http://localhost:4200/banking?action=accounts'
+    },
+    transactions:{
+      url: 'api/pentadata/accounts/{accountId}/transactions',
+      version: 'application/json',
     }
+
     },
     consent:{
       url:'https://sandbox.pentadatainc.com/consents',

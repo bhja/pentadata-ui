@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("In init");
+
   }
 
   submit(form:FormGroup) : void {

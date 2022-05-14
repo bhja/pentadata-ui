@@ -51,16 +51,15 @@ export class ConsentComponent implements OnInit {
     this.personService.sendConsent(this.consent,this.viewPersonService.getPerson(),text).subscribe(
       (data)=>{
         this.dialogRef.close({
-          data:{response: data,
-            continue:true
-        }});
+            proceed:true
+        });
       }
     );
   }
 
   close(){
     this.dialogRef.close({
-      data:{continue: false}
+      proceed: false
     });
   }
 

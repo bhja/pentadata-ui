@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import {BankingComponent} from "./banking.component";
 import {MatCardModule} from "@angular/material/card";
 import {AddBankModule} from "./add-bank/add-bank.module";
-import {ConsentModule} from "./consent/consent-module";
+import {AccountModule} from "../accounts/account.module";
 
 
 
@@ -13,6 +13,7 @@ import {ConsentModule} from "./consent/consent-module";
   imports: [
     CommonModule,
     MatCardModule,
+    AccountModule,
     AddBankModule
    ],
   providers: [

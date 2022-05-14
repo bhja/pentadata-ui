@@ -18,20 +18,21 @@ export class AddBankComponent implements OnInit {
 
   selected:any;
   institutions:Institution[] = [];
-  filteredList:Observable<Institution[]>;
+  //filteredList:Observable<Institution[]>;
   form:FormGroup;
 
 
   constructor(private dialog:MatDialog,private accountService:AccountService,
              private institutionService:InstitutionsService,private viewPersonService:ViewPersonService) {
 
+    this.form = new FormBuilder().group({
+      bank : ['']
+    })
 
   }
 
   ngOnInit(): void {
-    this.form = new FormBuilder().group({
-      bank : ['']
-     })
+
     this.institutionService.institutions('').subscribe(data=>{
       this.institutions = data;
       console.log(this.institutions);
@@ -46,7 +47,6 @@ export class AddBankComponent implements OnInit {
 
   selectedBank(institution:Institution){
     this.selected = institution;
-    console.log("Selection made" +institution.id + institution.name);
     const dialogRef = this.dialog.open(ConsentComponent, {
       width: '70%',
       height : '70%',
@@ -55,13 +55,13 @@ export class AddBankComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.continue){
-
-        this.accountService.createAccount(this.viewPersonService.getPerson(),this.selected.name).subscribe((data)=>{
-          console.log("Recevied the call" + data);
+      if(result.proceed){
+        this.accountService.createAccount(this.viewPersonService.getPerson(),this.selected.id).subscribe((data)=>{
+          window.location.href=data.response.url;
+          //Not a great idea when the viewPersonService should have worked.
+          localStorage.setItem("personId",this.viewPersonService.getPerson());
         })
       }
-
     });
   }
 

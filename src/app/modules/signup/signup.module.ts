@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {InstitutionsService, PersonService} from "../../service";
 
 import {SignupComponent} from "./signup.component";
 import {MatInputModule} from "@angular/material/input";
@@ -14,9 +13,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from "@angular/material/card";
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from "@angular/material/button";
-import {BankingModule} from "../banking/banking-module";
 import {BankingRoutingModule} from "../banking/banking-routing.module";
-import {BankingComponent} from "../banking/banking.component";
+import {TransactionsRoutingModule} from "../accounts/transactions/transactions-routing.module";
 @NgModule({
   declarations: [SignupComponent],
   imports: [
@@ -30,11 +28,10 @@ import {BankingComponent} from "../banking/banking.component";
     MatCardModule,
     MatStepperModule,
     MatButtonModule,
-    BankingRoutingModule
+    BankingRoutingModule,
+    TransactionsRoutingModule
   ],
   providers: [
-    InstitutionsService,
-    PersonService,
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {float: 'always'} }
   ]
 })

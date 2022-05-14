@@ -13,24 +13,18 @@ import {MAT_SELECT_SCROLL_STRATEGY_PROVIDER, MatSelectModule} from '@angular/mat
 import {MatCardModule} from "@angular/material/card";
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from "@angular/material/button";
-import {AddBankComponent} from "./add-bank.component";
 import {
-  MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
-  MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY,
-  MatAutocompleteModule, MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER
+  MatAutocompleteModule
 } from "@angular/material/autocomplete";
-import {ConsentModule} from "../consent/consent-module";
-import {MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY} from "@angular/material/autocomplete/autocomplete-trigger";
 
-import { Overlay, CloseScrollStrategy } from '@angular/cdk/overlay';
-import {AccountModule} from "../../accounts/account.module";
+import {MatTableModule} from "@angular/material/table";
+import {MatIconModule} from "@angular/material/icon";
+import {TransactionsComponent} from "./transactions.component";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 
-export function scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
-  return () => overlay.scrollStrategies.close();
-}
 
 @NgModule({
-  declarations: [AddBankComponent],
+  declarations: [TransactionsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -43,11 +37,13 @@ export function scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
     MatStepperModule,
     MatButtonModule,
     MatAutocompleteModule,
-    ConsentModule,
-    AccountModule
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule
+
   ],
   exports: [
-    AddBankComponent
+    TransactionsComponent
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {float: 'always'}}
@@ -55,6 +51,6 @@ export function scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
 
   ]
 })
-export class AddBankModule {
+export class TransactionsModule {
 
 }

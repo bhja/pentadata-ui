@@ -24,7 +24,16 @@ export const environment = {
       url: '',
       version: 'application/json',
         redirect_uri: ''
-    }},
+    },
+      retrieve:{
+        url: 'api/pentadata/accounts/',
+        version: 'application/json',
+      },
+      transactions:{
+        url: 'api/pentadata/accounts/{accountId}/transactions',
+        version: 'application/json',
+      }
+    },
     consent:{
       url:'',
       version: 'application/json'

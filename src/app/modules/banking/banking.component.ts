@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
+import {ViewPersonService} from "../../service/view-person-service";
 
 @Component({
   selector: 'app-banking',
@@ -7,24 +8,22 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./banking.component.css']
 })
 export class BankingComponent implements OnInit {
+    add = false;
+    account = false;
 
-   add = false;
-   account = false;
-
-  constructor(private  active:ActivatedRoute) {
+  constructor(private  active:ActivatedRoute,private viewService:ViewPersonService) {
     active.queryParams.subscribe(params => {
         let action = params['action'];
-        console.log('queryParams', params['action']);
         if (action == 'add') {
           this.add = true;
-          console.log("Add component");
+          console.log("Add component" + this.viewService.getPerson());
         }else{
+          let personId: any = localStorage.getItem('personId') ;
+          this.viewService.setPersonId(personId);
           this.account = true;
         }
       }
     );
-
-
   }
 
   ngOnInit(): void {
