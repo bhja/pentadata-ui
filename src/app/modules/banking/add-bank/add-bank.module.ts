@@ -24,6 +24,7 @@ import {MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY} from "@angular/material/autoco
 
 import { Overlay, CloseScrollStrategy } from '@angular/cdk/overlay';
 import {AccountModule} from "../../accounts/account.module";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 
 export function scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
   return () => overlay.scrollStrategies.close();
@@ -44,7 +45,8 @@ export function scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
     MatButtonModule,
     MatAutocompleteModule,
     ConsentModule,
-    AccountModule
+    AccountModule,
+    MatIconModule
   ],
   exports: [
     AddBankComponent

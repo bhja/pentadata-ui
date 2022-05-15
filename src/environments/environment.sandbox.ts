@@ -3,7 +3,7 @@ export const environment = {
   api: {
     institutions: {
       //Uses a proxy configuration for sandbox . Refer the proxy.conf.json under src
-      url: 'api/pentadata/institutions/?filter=',
+      url: 'api/pentadata/institutions/search?searchTxt=',
       version: 'application/json',
     },
     person:{

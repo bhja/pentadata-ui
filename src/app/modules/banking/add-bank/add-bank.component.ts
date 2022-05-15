@@ -3,7 +3,7 @@ import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/fo
 import {InstitutionsService, PersonService,AccountService} from "../../../service";
 import {ViewPersonService} from "../../../service/view-person-service";
 import {Institution} from "../../../model/institution";
-import {debounceTime, Observable, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, finalize, Observable, switchMap, tap} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ConsentComponent} from "../consent/consent.component";
 
@@ -18,8 +18,10 @@ export class AddBankComponent implements OnInit {
 
   selected:any;
   institutions:Institution[] = [];
+  default :any;
   //filteredList:Observable<Institution[]>;
   form:FormGroup;
+  isLoading= false;
 
 
   constructor(private dialog:MatDialog,private accountService:AccountService,
@@ -33,14 +35,40 @@ export class AddBankComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInstitutions('');
+    this.form.get('bank')?.valueChanges.
+    pipe(
+      filter(res => {
+        return res !== null && res.length >= 3
+      }),
+      distinctUntilChanged(),
+      debounceTime(1000),
+      tap(() => {
+        this.institutions = [];
+        this.isLoading = true;
+      }),
+      switchMap(value => this.institutionService.institutions(value)
+        .pipe(
+          finalize(() => {
+            this.isLoading = false
+          }),
+        )
+      )
+    )
+      .subscribe((data: any) => {
+        if (data == []) {
+          this.institutions = this.default;
+        } else {
+          this.institutions = data;
+        }
 
+      });
    }
 
   selectedBank(institution:Institution){
     this.selected = institution;
     const dialogRef = this.dialog.open(ConsentComponent, {
       width: '70%',
-      height : '70%',
+      height : '40%',
       disableClose: true ,
       data: { bank: institution.name }
     });
@@ -59,8 +87,14 @@ export class AddBankComponent implements OnInit {
   getInstitutions(filter:string){
     this.institutionService.institutions(filter).subscribe(data=>{
       this.institutions = data;
+      this.default = data;
       console.log(this.institutions);
     })
+  }
+
+  clear():void{
+    this.form.get('bank')?.setValue('');
+    this.institutions = this.default;
   }
 
 }
