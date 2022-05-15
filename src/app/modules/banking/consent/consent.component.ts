@@ -12,7 +12,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 export class ConsentComponent implements OnInit {
 
   checked=false;
-  consent:any;
   messageTemplate = [
     "You authorize and direct {{bank}} to share information about yourself, your {{bank}} relationship and your accounts at {{bank}} with Pentadata, (a third party).",
     "You should use caution and ensure that the privacy and security of your information is appropriately protected by them and other third parties with whom you share your information.",
@@ -25,13 +24,12 @@ export class ConsentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.personService.getBankingConsent(this.viewPersonService.getPerson()).subscribe(
+    this.personService.getBankingConsent(this.viewPersonService.getPersonId()).subscribe(
       (data => {
-        this.consent = data.response.signature;
-        console.log("Obtained consent for user " + this.consent);
+        this.viewPersonService.setSignature(data.response.signature);
       })
     );
+
   }
 
 
@@ -48,7 +46,7 @@ export class ConsentComponent implements OnInit {
 
   launch():void{
     let text = this.consentMessage.join("\n");
-    this.personService.sendConsent(this.consent,this.viewPersonService.getPerson(),text).subscribe(
+    this.personService.sendConsent(this.viewPersonService.getSignature(),this.viewPersonService.getPersonId(),text).subscribe(
       (data)=>{
         this.dialogRef.close({
             proceed:true

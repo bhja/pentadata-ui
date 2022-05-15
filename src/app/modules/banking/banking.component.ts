@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ViewPersonService} from "../../service/view-person-service";
+import {PersonService} from "../../service";
 
 @Component({
   selector: 'app-banking',
@@ -16,7 +17,7 @@ export class BankingComponent implements OnInit {
         let action = params['action'];
         if (action == 'add') {
           this.add = true;
-          console.log("Add component" + this.viewService.getPerson());
+          console.log("Add component" + this.viewService.getPersonId());
         }else{
           let personId: any = localStorage.getItem('personId') ;
           this.viewService.setPersonId(personId);

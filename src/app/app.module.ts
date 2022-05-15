@@ -7,10 +7,10 @@ import {AccountRoutingModule} from "./modules/accounts/account-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 
-import {SignupModule} from "./modules/signup/signup.module";
+import {LoginModule} from "./modules/login/login.module";
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import {SignupRoutingModule} from "./modules/signup/signup-routing.module";
+import {LoginRoutingModule} from "./modules/login/login-routing.module";
 import {AccountService, InstitutionsService, PersonService} from "./service";
 import {ViewPersonService} from "./service/view-person-service";
 import {MatTableModule} from "@angular/material/table";
@@ -33,8 +33,8 @@ import {TransactionsModule} from "./modules/accounts/transactions/transactions.m
         AppRoutingModule,
         AccountRoutingModule,
         HttpClientModule,
-        SignupModule,
-        SignupRoutingModule,
+        LoginModule,
+        LoginRoutingModule,
         ScrollingModule,
       MatTableModule,
       MatIconModule,

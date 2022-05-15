@@ -37,7 +37,7 @@ export class AccountComponent implements OnInit,AfterViewInit {
 
   getAccounts(){
     this.loading = true;
-    this.accountService.getAccounts(this.viewPersonService.getPerson()).subscribe((data)=>{
+    this.accountService.getAccounts(this.viewPersonService.getPersonId()).subscribe((data)=>{
       this.loading = false;
       this.dataSource = new MatTableDataSource <Account> (data); //pass the array you want in the table
       this.accounts = data;

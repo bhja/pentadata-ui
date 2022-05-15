@@ -37,6 +37,10 @@ export const environment = {
     consent:{
       url:'',
       version: 'application/json'
+    },
+    user:{
+      url:'',
+      version: 'application/json'
     }
     } //end of api
 };

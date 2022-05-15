@@ -5,11 +5,6 @@ input{
 ul {
   display: block;
   list-style-type: none;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
- /* padding-inline-start: 0px;*/
   overflow-y:scroll;
 }
 
@@ -36,9 +31,16 @@ img{
   vertical-align: middle;
 }
 .bank-img {
-  height: 22%;
-  width: 22%;
+  height: 25%;
+  width: 25%;
   padding-right: 2.5%;
 
+}
+
+.bank-content{
+  width: 400px;
+  height: 500px;
+  padding: 20px;
+  overflow: auto;
 }
 

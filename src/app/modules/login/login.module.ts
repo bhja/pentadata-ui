@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import {SignupComponent} from "./signup.component";
+import {LoginComponent} from "./login.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -16,7 +16,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {BankingRoutingModule} from "../banking/banking-routing.module";
 import {TransactionsRoutingModule} from "../accounts/transactions/transactions-routing.module";
 @NgModule({
-  declarations: [SignupComponent],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -35,6 +35,6 @@ import {TransactionsRoutingModule} from "../accounts/transactions/transactions-r
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {float: 'always'} }
   ]
 })
-export class SignupModule {
+export class LoginModule {
 
 }

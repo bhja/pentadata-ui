@@ -24,7 +24,7 @@ export const environment = {
       create:{
       url: 'api/pentadata/accounts/',
       version: 'application/json',
-      redirect_uri: 'http://localhost:4200/banking?action=accounts'
+      redirect_uri: 'http://www.google.com'
     },
     transactions:{
       url: 'api/pentadata/accounts/{accountId}/transactions',
@@ -33,8 +33,12 @@ export const environment = {
 
     },
     consent:{
-      url:'https://sandbox.pentadatainc.com/consents',
+      url:'https://api.pentadatainc.com/consents',
       version: 'application/json'
     },
+    user:{
+      url:'api/user?email=',
+      version: 'application/json'
+    }
   } //end of api
 };

@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ViewPersonService {
 
   person_id = new BehaviorSubject<string>('');
+  signature = new BehaviorSubject<string>('');
 
   person = this.person_id.asObservable();
   constructor() { }
@@ -17,7 +18,14 @@ export class ViewPersonService {
 
 
 
-  getPerson(){
+  getPersonId(): string{
     return this.person_id.value;
+  }
+
+  setSignature(str:string) : void {
+    this.signature.next(str);
+  }
+  getSignature() :string {
+    return this.signature.value;
   }
 }

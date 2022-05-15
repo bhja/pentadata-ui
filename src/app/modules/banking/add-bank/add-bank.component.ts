@@ -32,17 +32,8 @@ export class AddBankComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getInstitutions('');
 
-    this.institutionService.institutions('').subscribe(data=>{
-      this.institutions = data;
-      console.log(this.institutions);
-    })
-
-  //   this.filteredList = this.form.get('userInput').valueChanges
-  //     .pipe(
-  //       debounceTime(300),
-  //       switchMap(value => this.institutionService.institutions(value))
-  //     );
    }
 
   selectedBank(institution:Institution){
@@ -56,14 +47,20 @@ export class AddBankComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.proceed){
-        this.accountService.createAccount(this.viewPersonService.getPerson(),this.selected.id).subscribe((data)=>{
+        this.accountService.createAccount(this.viewPersonService.getPersonId(),this.selected.id).subscribe((data)=>{
           window.location.href=data.response.url;
           //Not a great idea when the viewPersonService should have worked.
-          localStorage.setItem("personId",this.viewPersonService.getPerson());
+          localStorage.setItem("personId",this.viewPersonService.getPersonId());
         })
       }
     });
   }
 
+  getInstitutions(filter:string){
+    this.institutionService.institutions(filter).subscribe(data=>{
+      this.institutions = data;
+      console.log(this.institutions);
+    })
+  }
 
 }
