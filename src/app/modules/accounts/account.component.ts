@@ -31,13 +31,16 @@ export class AccountComponent implements OnInit,AfterViewInit {
 
   delete(rowid: number){
    let account= this.accounts[rowid];
-   console.log(JSON.stringify(account));
+
   }
 
 
   getAccounts(){
     this.loading = true;
-    this.accountService.getAccounts(this.viewPersonService.getPersonId()).subscribe((data)=>{
+    //This is hack. It would not be so in the actual implementation.
+    let userId:any =this.viewPersonService.getUserId()!='' ? this.viewPersonService.getUserId():localStorage.getItem("userId")  ;
+
+    this.accountService.getAccounts(this.viewPersonService.getPersonId(),userId).subscribe((data)=>{
       this.loading = false;
       this.dataSource = new MatTableDataSource <Account> (data); //pass the array you want in the table
       this.accounts = data;
@@ -46,8 +49,12 @@ export class AccountComponent implements OnInit,AfterViewInit {
   }
 
   showTransactions(account:Account){
-   this.router.navigate(["/transactions"],{relativeTo:this.route,queryParams:{accountId:account.account_id}});
+   this.router.navigate(["/transactions"],{relativeTo:this.route,queryParams:{accountId:account.account_id,accountName:account.account_name}});
 
 
+  }
+  addAccount() : void {
+    this.router.navigate(['/banking'],
+      {relativeTo: this.route, queryParams: {action: 'add'}});
   }
 }

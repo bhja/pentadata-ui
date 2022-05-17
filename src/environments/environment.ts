@@ -14,6 +14,10 @@ export const environment = {
         url : '',
         version: 'application/json'
       },
+      retrieve: {
+        url : '',
+        version: 'application/json'
+      },
       consent_banking:{
         url : '',
         version: 'application/json'

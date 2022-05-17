@@ -18,25 +18,38 @@ export class PersonService extends BaseHttpService {
   }
 
 
-  createPerson(person:Person){
-
-    const url = environment.api.person.create.url;
-    const version = environment.api.person.create.version;
+  getPerson(userId:string){
+    const url = environment.api.person.retrieve.url;
+    const version = environment.api.person.retrieve.version;
     let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
-      version).set('Content-Type',
-      version).set('userId','1234544');
-    const body: any = {
-      //Place holder for any other additional detail
-      request :  person
-    };
+      version).set('Content-Type',version);
+    return this.http.get<string>(url + userId,
 
-
-    return this.http.post<string>(url,
-      body,
       { headers })
       .pipe(
         map(response => {
-          console.log(JSON.stringify(response))
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  createPerson(userId:string){
+
+    const url = environment.api.person.create.url;
+    const version = environment.api.person.create.version;
+
+    let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
+      version).set('Content-Type',
+      version);
+
+
+
+    return this.http.post<string>(url+userId,
+
+      { headers })
+      .pipe(
+        map(response => {
           return response;
         }),
         catchError(this.handleError)
@@ -45,7 +58,6 @@ export class PersonService extends BaseHttpService {
 
   getBankingConsent(personId:string){
     const url = environment.api.person.consent_banking.url;
-    console.log("Did this call go over");
     return this.http.get<any>(url.replace("{personId}",String(personId)))
       .pipe(
         map(response => {

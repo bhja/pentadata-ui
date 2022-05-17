@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
-import {InstitutionsService, PersonService} from "../../service";
+import {InstitutionsService, PersonService, UserService} from "../../service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {Person} from "../../model/person";
@@ -18,13 +18,11 @@ export class LoginComponent implements OnInit {
 
   selectedValue: any;
 
-  constructor(private route:ActivatedRoute,private router:Router,private viewPersonService:ViewPersonService,private dialog: MatDialog,
-              private personService:PersonService
+  constructor(private route: ActivatedRoute, private router: Router, private viewPersonService: ViewPersonService, private dialog: MatDialog,
+              private personService: PersonService, private userService: UserService
   ) {
-    this.form= new FormBuilder().group({
-      first_name: ['',Validators.required],
-      last_name : ['' ,Validators.required],
-      email : ['', Validators.required]
+    this.form = new FormBuilder().group({
+      email: ['', Validators.required]
     });
   }
 
@@ -32,16 +30,33 @@ export class LoginComponent implements OnInit {
 
   }
 
-  submit(form:FormGroup) : void {
-    let person:Person = form.value;
-     this.personService.createPerson(person).subscribe(
-       (data)=> {
-         this.viewPersonService.setPersonId(data.response.person_id);
-         this.router.navigate(['/banking'],{relativeTo:this.route,queryParams:{action:'add'}});
-       }
-     );
+  submit(form: FormGroup): void {
+    let values = form.value;
+    let person: Person = new Person();
+    //Defaulting this to the mp user for pentadata behavior.
+    person.first_name = "mp_user_fn";
+    person.last_name = "mp_user_ln";
+    person.email = values;
+
+
+    this.userService.getUser(values.email).subscribe(data => {
+      localStorage.setItem('userId', data.response.userId);
+      this.viewPersonService.setUserId(data.response.userId);
+
+
+    });
+    this.personService.getPerson(values.email).subscribe(data => {
+      if (data?.response.person_id) {
+        this.viewPersonService.setPersonId(data.response.person_id)
+        this.router.navigate(['/banking'],
+          {relativeTo: this.route, queryParams: {action: 'account'}});
+      } else {
+        this.router.navigate(['/banking'],
+          {relativeTo: this.route, queryParams: {action: 'link'}});
+      }
+    });
   }
-  }
+}
 
 
 

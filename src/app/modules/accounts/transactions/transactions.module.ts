@@ -21,6 +21,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import {TransactionsComponent} from "./transactions.component";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {Transaction} from "../../../model/transaction";
 
 
 @NgModule({

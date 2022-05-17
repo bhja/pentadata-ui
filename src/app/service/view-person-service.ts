@@ -6,8 +6,8 @@ export class ViewPersonService {
 
   person_id = new BehaviorSubject<string>('');
   signature = new BehaviorSubject<string>('');
+  userId = new BehaviorSubject<string>('');
 
-  person = this.person_id.asObservable();
   constructor() { }
 
 
@@ -27,5 +27,15 @@ export class ViewPersonService {
   }
   getSignature() :string {
     return this.signature.value;
+  }
+
+  setUserId(id:string) : void {
+    this.userId.next(id);
+  }
+
+
+
+  getUserId(): string{
+    return this.userId.value;
   }
 }

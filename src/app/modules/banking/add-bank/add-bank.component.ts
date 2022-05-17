@@ -22,6 +22,7 @@ export class AddBankComponent implements OnInit {
   //filteredList:Observable<Institution[]>;
   form:FormGroup;
   isLoading= false;
+  initial = true;
 
 
   constructor(private dialog:MatDialog,private accountService:AccountService,
@@ -75,7 +76,7 @@ export class AddBankComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.proceed){
-        this.accountService.createAccount(this.viewPersonService.getPersonId(),this.selected.id).subscribe((data)=>{
+        this.accountService.createAccount(this.viewPersonService.getPersonId(),this.selected.id,this.viewPersonService.getUserId()).subscribe((data)=>{
           window.location.href=data.response.url;
           //Not a great idea when the viewPersonService should have worked.
           localStorage.setItem("personId",this.viewPersonService.getPersonId());
@@ -87,8 +88,11 @@ export class AddBankComponent implements OnInit {
   getInstitutions(filter:string){
     this.institutionService.institutions(filter).subscribe(data=>{
       this.institutions = data;
-      this.default = data;
-      console.log(this.institutions);
+      if(this.initial) {
+        //The first 100 will be displayed when user clears the search. Dont have to go back to the database.
+        this.default = data;
+        this.initial = false;
+      }
     })
   }
 

@@ -1,3 +1,5 @@
+<mat-card>
+  <div align="right"> <button mat-button (click)="addAccount()">Add financial institution</button></div>
 <div mat-card-title align="center">Account Details
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="bank">
@@ -29,3 +31,5 @@
            ></tr>
 </table>
 </div>
+
+</mat-card>

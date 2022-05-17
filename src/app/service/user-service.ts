@@ -17,11 +17,11 @@ export class UserService extends BaseHttpService{
   /**
    *
    */
-  getuser(emailid:string): Observable<any> {
+  getUser(emailid:string): Observable<any> {
 
     const url = environment.api.user.url;
 
-    return this.http.get<any[]>(url+emailid)
+    return this.http.get<any>(url+emailid)
       .pipe(
         map(response => {
           return response;

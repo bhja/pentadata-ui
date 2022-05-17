@@ -18,16 +18,15 @@ export class AccountService extends BaseHttpService{
   /**
    *
    */
-  createAccount(personId:string,bank:string): Observable<any> {
+  createAccount(personId:string,bank:string,userId:string): Observable<any> {
 
     const url = environment.api.account.create.url;
     const version = environment.api.account.create.version;
     const redirectUri = environment.api.account.create.redirect_uri;
 
-
     let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
       version).set('Content-Type',
-      version).set('userId','1234544');
+      version).set('userId',userId);
     const body: any = {
       //Place holder for any other additional detail
       request : {
@@ -49,11 +48,11 @@ export class AccountService extends BaseHttpService{
       );
   }
 
-  getAccounts(personId:string) : Observable<Account[]>{
+  getAccounts(personId:string,userId:string) : Observable<Account[]>{
     const url = environment.api.account.retrieve.url;
     const version = environment.api.consent.version;
     let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
-      version).set('Content-Type',version).set('userId','12345');
+      version).set('Content-Type',version).set('userId',userId);
 
     return this.http.get<Account[]>(url.replace("{personId}",personId),{ headers})
       .pipe(
@@ -65,7 +64,7 @@ export class AccountService extends BaseHttpService{
 
   }
 
-  getTransactions(accountId:any): Observable<Transaction[]> {
+  getTransactions(accountId:any,userId:string): Observable<Transaction[]> {
 
     const url = environment.api.account.transactions.url;
     const version = environment.api.account.transactions.version;
@@ -74,15 +73,13 @@ export class AccountService extends BaseHttpService{
 
     let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
       version).set('Content-Type',
-      version).set('userId','1234544');
-
+      version).set('userId',userId);
 
 
     return this.http.get<Transaction[]>(url.replace("{accountId}",accountId),
       { headers })
       .pipe(
         map(response => {
-          console.log(JSON.stringify(response))
           return response;
         }),
         catchError(this.handleError)

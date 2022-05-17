@@ -8,13 +8,17 @@ export const environment = {
     },
     person:{
       create: {
-        url : 'api/pentadata/person/',
+        url : 'api/pentadata/person/?userId=',
         version: 'application/json'
       },
       consent_banking:{
         url : 'api/pentadata/person/consent/signature/{personId}/banking',
         version: 'application/json'
-      }
+      },
+      retrieve: {
+        url : 'api/pentadata/person/?emailId=',
+        version: 'application/json'
+      },
     },
     account:{
       retrieve:{
@@ -37,7 +41,7 @@ export const environment = {
       version: 'application/json'
     },
     user:{
-      url:'api/user?email=',
+      url:'api/pentadata/user/?emailId=',
       version: 'application/json'
     }
   } //end of api

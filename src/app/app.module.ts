@@ -11,7 +11,7 @@ import {LoginModule} from "./modules/login/login.module";
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {LoginRoutingModule} from "./modules/login/login-routing.module";
-import {AccountService, InstitutionsService, PersonService} from "./service";
+import {AccountService, InstitutionsService, PersonService, UserService} from "./service";
 import {ViewPersonService} from "./service/view-person-service";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
@@ -19,13 +19,18 @@ import {BankingModule} from "./modules/banking/banking-module";
 import {AccountModule} from "./modules/accounts/account.module";
 import {AddBankModule} from "./modules/banking/add-bank/add-bank.module";
 import {TransactionsModule} from "./modules/accounts/transactions/transactions.module";
+import {MatTabsModule} from "@angular/material/tabs";
+import { NavComponent } from './components/nav/nav.component';
+
 
 
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NavComponent
+
     ],
     imports: [
         BrowserModule,
@@ -41,14 +46,18 @@ import {TransactionsModule} from "./modules/accounts/transactions/transactions.m
       BankingModule,
       AccountModule,
       AddBankModule,
-      TransactionsModule
+      TransactionsModule,
+      MatTabsModule
+
+
 
     ],
     providers: [
       InstitutionsService,
       PersonService,
       AccountService,
-      ViewPersonService
+      ViewPersonService,
+      UserService
 
     ],
     exports: [
