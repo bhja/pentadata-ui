@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {Location} from "./location";
 export class Transaction{
   amount : number;
   description : string;
@@ -6,24 +7,16 @@ export class Transaction{
   category : string;
   pending : boolean;
   currency: string;
-  location: string;
+  location: Location;
   datetime: string;
 
 
 
   constructor(obj?: any) {
     Object.assign(this, obj);
-    console.log(this.transaction_date);
+
   }
 
-  get transaction_date() : string {
-    let date = moment(this.datetime).format('YYYY-MM-DD HH:mm:ss');
-    return date;
-  }
 
-  get pending_flag()  : string{
-   console.log(this.pending ? "Y" : "N");
-   return  this.pending ? "Y" : "N";
-  }
 
 }
