@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, filter, finalize, Observable, pairwi
 import {MatDialog} from "@angular/material/dialog";
 import {ConsentComponent} from "../consent/consent.component";
 import {ActivatedRoute, Router, RoutesRecognized} from "@angular/router";
+import {ViewService} from "../../../service/view-service";
 
 
 @Component({
@@ -22,14 +23,13 @@ export class AddBankComponent implements OnInit {
   form:FormGroup;
   isLoading= false;
   initial = true;
-  consent=false;
+  consent=true;
   listBanks=false;
   postUrl:any;
 
 
-
-  constructor(private active:ActivatedRoute,private router:Router,private dialog:MatDialog,private accountService:AccountService,
-             private institutionService:InstitutionsService,private personService:PersonService) {
+  constructor(private active:ActivatedRoute,private router:Router,private accountService:AccountService,
+             private institutionService:InstitutionsService,private personService:PersonService,private viewService:ViewService) {
 
 
     this.form = new FormBuilder().group({
@@ -38,15 +38,18 @@ export class AddBankComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.viewService.consentState.subscribe(
+      consent => {
+          this.consent = consent;
+          this.listBanks = !consent;
+      });
+    this.viewService.accountState.subscribe(account=>{
+      if(account>0) {
+        this.listBanks = true;
+      }
+    });
 
-    localStorage.removeItem('signature');
-    const personId:any = localStorage.getItem('personId');
-    this.personService.getBankingConsent(personId).subscribe(
-      (data => {
-        this.postUrl = data.response.consent_post_url;
-        localStorage.setItem('signature',data.response.signature);
-      })
-    );
+
 
     this.getInstitutions('');
     this.form.get('bank')?.valueChanges.
@@ -78,23 +81,12 @@ export class AddBankComponent implements OnInit {
       });
    }
 
-  selectedBank(institution:Institution){
+  selectedBank(institution:Institution) {
     this.selected = institution;
-    const dialogRef = this.dialog.open(ConsentComponent, {
-      width: '70%',
-      height : '40%',
-      disableClose: true ,
-      data: { bank: institution.name }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      let person_id:any = localStorage.getItem('personId');
-      let userId:any = localStorage.getItem('userId');
-      if(result.proceed){
-        this.accountService.createAccount(person_id,this.selected.id,userId).subscribe((data)=>{
-          window.location.href = data.response.url;
-        });
-      }
+    let person_id:any = localStorage.getItem('personId');
+    let userId:any = localStorage.getItem('userId');
+    this.accountService.createAccount(person_id, this.selected.id, userId).subscribe((data) => {
+      window.location.href = data.response.url;
     });
   }
 

@@ -4,6 +4,7 @@ import {Account} from "../../model/account";
 import {MatTableDataSource} from "@angular/material/table";
 
 import {ActivatedRoute, Router} from "@angular/router";
+import {ViewService} from "../../service/view-service";
 
 @Component({
   selector: 'app-account',
@@ -19,7 +20,7 @@ export class AccountComponent implements OnInit,AfterViewInit {
   loading = false;
 
   dataSource = new MatTableDataSource<Account> ([]);
-  constructor(private route:ActivatedRoute,private router:Router,private accountService:AccountService) { }
+  constructor(private route:ActivatedRoute,private router:Router,private accountService:AccountService,private viewService:ViewService) { }
 
   ngOnInit(): void {
     this.getAccounts();
@@ -44,7 +45,7 @@ export class AccountComponent implements OnInit,AfterViewInit {
       this.loading = false;
       this.dataSource = new MatTableDataSource <Account> (data); //pass the array you want in the table
       this.accounts = data;
-
+      this.viewService.setAccount(this.accounts.length);
     });
   }
 
@@ -55,6 +56,6 @@ export class AccountComponent implements OnInit,AfterViewInit {
   }
   addAccount() : void {
     this.router.navigate(['/banking'],
-      {relativeTo: this.route, queryParams: {action: 'add',consent:false}});
+      {relativeTo: this.route, queryParams: {action: 'add'}});
   }
 }

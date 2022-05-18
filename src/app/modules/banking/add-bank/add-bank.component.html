@@ -2,9 +2,11 @@
   <div align="right">
     <button mat-button color="primary" (click)="back()">Back</button>
   </div>
+  <div *ngIf="consent" >
+    <app-consent></app-consent>
+  </div>
+  <div *ngIf="listBanks">
   <div align="center">Add Financial Institution</div>
-
-
   <form [formGroup]="form">
     <mat-form-field>
     <input matInput placeholder="Search for financial institution(min 3 characters)" formControlName="bank">
@@ -21,5 +23,5 @@
     </ul>
     </div>
   </form>
-
+  </div>
 </mat-card>

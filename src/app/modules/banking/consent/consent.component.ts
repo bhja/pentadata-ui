@@ -2,7 +2,8 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {PersonService} from "../../../service";
 
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {ViewService} from "../../../service/view-service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-consent',
@@ -11,62 +12,42 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 })
 export class ConsentComponent implements OnInit {
 
-  checked=false;
-  postUrl:any;
-  messageTemplate = [
-    "You authorize and direct {{bank}} to share information about yourself, your {{bank}} relationship and your accounts at {{bank}} with Pentadata, (a third party).",
-    "You should use caution and ensure that the privacy and security of your information is appropriately protected by them and other third parties with whom you share your information.",
-    "Use of your information by the third party is governed by your agreement with them, not by {{bank}}",
-    "You can revoke future access at anytime."
-  ];
-  consentMessage:string[] = [];
-  constructor(public dialogRef: MatDialogRef<ConsentComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,private  personService:PersonService) {
+  checked = false;
+  postUrl: any;
+  text: any = "By linking accounts you will authorize access to your data. \n" +
+    "   Profile Data and Statement Data " +
+    "\n" +
+    "By clicking \"Share my data\", I allow this third party to access and retrieve my information."
+
+  constructor(private active: ActivatedRoute, private router: Router, private viewService: ViewService, private personService: PersonService) {
   }
 
   ngOnInit(): void {
     //Remove the older signatures if any.
     localStorage.removeItem('signature');
-    const personId:any = localStorage.getItem('personId');
+    const personId: any = localStorage.getItem('personId');
     this.personService.getBankingConsent(personId).subscribe(
       (data => {
         this.postUrl = data.response.consent_post_url;
-        localStorage.setItem('signature',data.response.signature);
+        localStorage.setItem('signature', data.response.signature);
       })
     );
 
   }
 
 
-
-  getMessage(message:string):string {
-     message = message.replace(new RegExp("{{bank}}",'g'),this.data.bank);
-     this.consentMessage.push(message);
-     return message;
-  }
-
-  sendUserConsent(event:MatCheckboxChange):void{
+  sendUserConsent(event: MatCheckboxChange): void {
     this.checked = event.checked;
   }
 
-  launch():void{
-    const text = this.consentMessage.join("\n");
-    const signature:any = localStorage.getItem('signature');
-    const personId:any = localStorage.getItem('personId');
+  launch(): void {
 
-    this.personService.sendConsent(signature,personId,text,this.postUrl).subscribe(
-      (data)=>{
-        this.dialogRef.close({
-            proceed:true
-        });
-      }
-    );
+    const signature: any = localStorage.getItem('signature');
+    const personId: any = localStorage.getItem('personId');
+
+    this.personService.sendConsent(signature, personId, this.text, this.postUrl).subscribe(
+      (data) => {
+        this.viewService.setConsentView(false);
+      });
   }
-
-  close(){
-    this.dialogRef.close({
-      proceed: false
-    });
-  }
-
 }
