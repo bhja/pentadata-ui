@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AccountService} from "../../service";
-import {ViewPersonService} from "../../service/view-person-service";
 import {Account} from "../../model/account";
 import {MatTableDataSource} from "@angular/material/table";
 
@@ -20,7 +19,7 @@ export class AccountComponent implements OnInit,AfterViewInit {
   loading = false;
 
   dataSource = new MatTableDataSource<Account> ([]);
-  constructor(private route:ActivatedRoute,private router:Router,private accountService:AccountService,private viewPersonService:ViewPersonService) { }
+  constructor(private route:ActivatedRoute,private router:Router,private accountService:AccountService) { }
 
   ngOnInit(): void {
     this.getAccounts();
@@ -38,9 +37,10 @@ export class AccountComponent implements OnInit,AfterViewInit {
   getAccounts(){
     this.loading = true;
     //This is hack. It would not be so in the actual implementation.
-    let userId:any =this.viewPersonService.getUserId()!='' ? this.viewPersonService.getUserId():localStorage.getItem("userId")  ;
+    const userId:any =localStorage.getItem("userId")  ;
+    const personId:any = localStorage.getItem('personId');
 
-    this.accountService.getAccounts(this.viewPersonService.getPersonId(),userId).subscribe((data)=>{
+    this.accountService.getAccounts(personId,userId).subscribe((data)=>{
       this.loading = false;
       this.dataSource = new MatTableDataSource <Account> (data); //pass the array you want in the table
       this.accounts = data;
@@ -55,6 +55,6 @@ export class AccountComponent implements OnInit,AfterViewInit {
   }
   addAccount() : void {
     this.router.navigate(['/banking'],
-      {relativeTo: this.route, queryParams: {action: 'add'}});
+      {relativeTo: this.route, queryParams: {action: 'add',consent:false}});
   }
 }

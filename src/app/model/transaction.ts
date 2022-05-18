@@ -13,11 +13,11 @@ export class Transaction{
 
   constructor(obj?: any) {
     Object.assign(this, obj);
+    console.log(this.transaction_date);
   }
 
   get transaction_date() : string {
     let date = moment(this.datetime).format('YYYY-MM-DD HH:mm:ss');
-    console.log(date);
     return date;
   }
 

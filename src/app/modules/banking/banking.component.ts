@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ViewPersonService} from "../../service/view-person-service";
 import {PersonService} from "../../service";
 
 @Component({
@@ -12,17 +11,18 @@ export class BankingComponent implements OnInit {
     add = false;
     account = false;
     link = false;
-  constructor(private  active:ActivatedRoute,private viewService:ViewPersonService,private personService:PersonService) {
+  constructor(private  active:ActivatedRoute,private personService:PersonService) {
 
     active.queryParams.subscribe(params => {
         let action = params['action'];
         if (action == 'add') {
           this.add = true;
-          console.log("Add component" + this.viewService.getPersonId());
+          this.account = false;
+          this.link = false;
         }else if(action =='account'){
-          let personId: any = localStorage.getItem('personId') ;
-          this.viewService.setPersonId(personId);
+          this.add = false;
           this.account = true;
+          this.link = false;
         }else if(action =='link'){
           this.link = true;
         }
@@ -35,10 +35,10 @@ export class BankingComponent implements OnInit {
   }
 
   create() : void{
-    this.personService.createPerson(this.viewService.getUserId()).subscribe(
+    let userId:any = localStorage.getItem('userId');
+    this.personService.createPerson(userId).subscribe(
       data=> {
-        this.viewService.setPersonId(data.response.person_id);
-        console.log(this.viewService.getPersonId());
+        localStorage.setItem('personId',data.response.person_id);
         this.add = true;
         this.link = false;
       });

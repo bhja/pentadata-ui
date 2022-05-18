@@ -7,6 +7,7 @@ import {AddBankModule} from "./add-bank/add-bank.module";
 import {AccountModule} from "../accounts/account.module";
 import {MatTab, MatTabGroup, MatTabsModule} from "@angular/material/tabs";
 import {TransactionsModule} from "../accounts/transactions/transactions.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -19,7 +20,9 @@ import {TransactionsModule} from "../accounts/transactions/transactions.module";
     AccountModule,
     AddBankModule,
     MatTabsModule,
-    TransactionsModule
+    TransactionsModule,
+    FormsModule,
+    ReactiveFormsModule
    ],
   providers: [
 

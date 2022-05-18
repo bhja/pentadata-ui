@@ -69,9 +69,8 @@ export class PersonService extends BaseHttpService {
 
   }
 
-  sendConsent(signature:string, personId:string,text:string){
+  sendConsent(signature:string, personId:string,text:string,url:string){
 
-    const url = environment.api.consent.url;
     const version = environment.api.consent.version;
     let headers: HttpHeaders = (new HttpHeaders()).set('Accept',
       version).set('Content-Type',version);
@@ -87,7 +86,6 @@ export class PersonService extends BaseHttpService {
       { headers})
       .pipe(
         map(response => {
-          console.log(JSON.stringify(response));
           return response;
         }),
         catchError(this.handleError)

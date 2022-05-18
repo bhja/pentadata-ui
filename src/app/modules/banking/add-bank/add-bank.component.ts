@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {InstitutionsService, PersonService,AccountService} from "../../../service";
-import {ViewPersonService} from "../../../service/view-person-service";
+import { FormBuilder,  FormGroup} from "@angular/forms";
+import {InstitutionsService, AccountService, PersonService} from "../../../service";
 import {Institution} from "../../../model/institution";
-import {debounceTime, distinctUntilChanged, filter, finalize, Observable, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, finalize, Observable, pairwise, switchMap, tap} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ConsentComponent} from "../consent/consent.component";
+import {ActivatedRoute, Router, RoutesRecognized} from "@angular/router";
 
 
 @Component({
@@ -19,22 +19,35 @@ export class AddBankComponent implements OnInit {
   selected:any;
   institutions:Institution[] = [];
   default :any;
-  //filteredList:Observable<Institution[]>;
   form:FormGroup;
   isLoading= false;
   initial = true;
+  consent=false;
+  listBanks=false;
+  postUrl:any;
 
 
-  constructor(private dialog:MatDialog,private accountService:AccountService,
-             private institutionService:InstitutionsService,private viewPersonService:ViewPersonService) {
+
+  constructor(private active:ActivatedRoute,private router:Router,private dialog:MatDialog,private accountService:AccountService,
+             private institutionService:InstitutionsService,private personService:PersonService) {
+
 
     this.form = new FormBuilder().group({
       bank : ['']
     })
-
   }
 
   ngOnInit(): void {
+
+    localStorage.removeItem('signature');
+    const personId:any = localStorage.getItem('personId');
+    this.personService.getBankingConsent(personId).subscribe(
+      (data => {
+        this.postUrl = data.response.consent_post_url;
+        localStorage.setItem('signature',data.response.signature);
+      })
+    );
+
     this.getInstitutions('');
     this.form.get('bank')?.valueChanges.
     pipe(
@@ -75,12 +88,12 @@ export class AddBankComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      let person_id:any = localStorage.getItem('personId');
+      let userId:any = localStorage.getItem('userId');
       if(result.proceed){
-        this.accountService.createAccount(this.viewPersonService.getPersonId(),this.selected.id,this.viewPersonService.getUserId()).subscribe((data)=>{
-          window.location.href=data.response.url;
-          //Not a great idea when the viewPersonService should have worked.
-          localStorage.setItem("personId",this.viewPersonService.getPersonId());
-        })
+        this.accountService.createAccount(person_id,this.selected.id,userId).subscribe((data)=>{
+          window.location.href = data.response.url;
+        });
       }
     });
   }
@@ -99,6 +112,12 @@ export class AddBankComponent implements OnInit {
   clear():void{
     this.form.get('bank')?.setValue('');
     this.institutions = this.default;
+  }
+
+
+  back():void{
+      this.router.navigate(['/banking'],
+        {relativeTo: this.active, queryParams: {action: 'account'}});
   }
 
 }

@@ -1,6 +1,7 @@
 <mat-card>
-  <div align="right"> <button mat-button (click)="addAccount()">Add financial institution</button></div>
-<div mat-card-title align="center">Account Details
+ <div align="right"><button mat-button color="primary" (click)="addAccount()">Add financial institution</button></div>
+  <div *ngIf="accounts.length==0" align="center">Link accounts by adding financial institutions</div>
+  <div *ngIf="accounts.length>0" mat-card-title align="center">Account Details
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="bank">
     <th mat-header-cell *matHeaderCellDef>Bank</th>

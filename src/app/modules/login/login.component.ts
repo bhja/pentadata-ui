@@ -3,7 +3,6 @@ import {InstitutionsService, PersonService, UserService} from "../../service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {Person} from "../../model/person";
-import {ViewPersonService} from "../../service/view-person-service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   selectedValue: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private viewPersonService: ViewPersonService, private dialog: MatDialog,
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog,
               private personService: PersonService, private userService: UserService
   ) {
     this.form = new FormBuilder().group({
@@ -41,13 +40,10 @@ export class LoginComponent implements OnInit {
 
     this.userService.getUser(values.email).subscribe(data => {
       localStorage.setItem('userId', data.response.userId);
-      this.viewPersonService.setUserId(data.response.userId);
-
-
     });
     this.personService.getPerson(values.email).subscribe(data => {
       if (data?.response.person_id) {
-        this.viewPersonService.setPersonId(data.response.person_id)
+        localStorage.setItem('personId',data.response.person_id);
         this.router.navigate(['/banking'],
           {relativeTo: this.route, queryParams: {action: 'account'}});
       } else {
