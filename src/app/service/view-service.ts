@@ -22,7 +22,6 @@ export class ViewService {
   }
 
   setConsentView(val:boolean){
-    console.log("value set" + val);
     this.consentView.next(val);
   }
 }
