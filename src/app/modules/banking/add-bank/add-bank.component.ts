@@ -41,9 +41,7 @@ export class AddBankComponent implements OnInit {
     this.viewService.consentState.subscribe(
       consent => {
           this.consent = consent;
-          if(this.consent) {
-            this.listBanks = !this.consent;
-          }
+          this.listBanks = !this.consent;
       });
     this.viewService.accountState.subscribe(account=>{
       if(account>0) {

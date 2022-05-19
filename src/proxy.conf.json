@@ -1,6 +1,6 @@
 {
   "/api/pentadata/": {
-    "target": "http://localhost:9090/spring_pentadata_war_exploded/",
+    "target": "http://localhost:8080/pentadata-1.0/",
     "secure": false
   },
   "changeOrigin": true
