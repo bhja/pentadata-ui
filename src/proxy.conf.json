@@ -1,6 +1,6 @@
 {
   "/api/pentadata/": {
-    "target": "http://localhost:8080/pentadata-1.0/",
+    "target": "http://localhost:9090/pentadata_war_exploded/",
     "secure": false
   },
   "changeOrigin": true

@@ -15,7 +15,7 @@ export class AccountComponent implements OnInit,AfterViewInit {
 
 
   selectedRowIndex = -1;
-  columns:string[] = ['bank','account_name','account_type','delete'];
+  columns:string[] = ['bank','account_name','account_type','available_balance','credit_available','delete'];
   accounts:Account[] = [];
   loading = false;
 
